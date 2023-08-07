@@ -21,7 +21,6 @@
 - [Output](#output)
 - [Contributing](../CONTRIBUTING.md)
 - [Authors](#authors)
-- [License](#license)
 
 ## 🧐 About <a name="about"></a>
 
