@@ -51,8 +51,5 @@ You can use this CSV file for further analysis and reporting.
 
 ## ✍️ Authors <a name="authors"></a>
 
-- Your Name - [@MatheusBasilio](https://github.com/MatheusBasilio)
+- Matheus Basilio Cintra - [@MatheusBasilio](https://github.com/MatheusBasilio)
 
-## 📄 License <a name="license"></a>
-
-This project is licensed under the MIT License - see the [LICENSE](/LICENSE) file for details.
