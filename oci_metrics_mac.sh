@@ -1,6 +1,6 @@
 #!/bin/bash
 compartments=$(oci iam compartment list --access-level any --compartment-id-in-subtree true --query "data[*].id" --raw-output)
-echo "COMPARTMENT NAME, INSTANCE ID, CPU Utilization, Memory Uitlization"
+echo "COMPARTMENT NAME, INSTANCE ID, INSTANCE NAME, OCPU, MEMORY, INSTANCE SHAPE, CPU Utilization, Memory Uitlization"
 # Obtendo a data atual em formato Unix timestamp
 current_time=$(date +%s)
 
@@ -20,6 +20,7 @@ for compartment_id in $compartments; do
         for instance_id in $instances; do
         instance_id=$(echo "$instance_id" | sed 's/,//g')
         # Executar o comando e armazenar a saída JSON em uma variável
+        instance_info=$(oci compute instance get --instance-id $instance_id  --query 'data.{"Name": "display-name", "Shape": "shape", "SHAPECONFIG": "shape-config"}' | jq -r '"\(.Name), \(.SHAPECONFIG.ocpus), \(.SHAPECONFIG["memory-in-gbs"]), \(.Shape)"')
         command_output_memory=$(oci monitoring metric-data summarize-metrics-data --compartment-id $compartment_id --namespace oci_computeagent --query-text "MemoryUtilization[1d]{resourceId=$instance_id}.max()" --start-time $start_time_formatted --end-time $end_time_formatted)
         command_output_cpu=$(oci monitoring metric-data summarize-metrics-data --compartment-id $compartment_id --namespace oci_computeagent --query-text "CpuUtilization[1d]{resourceId=$instance_id}.max()" --start-time $start_time_formatted --end-time $end_time_formatted)
         if [ "$instance_id" != "[" ] && [ "$instance_id" != "]" ]; then
@@ -53,7 +54,7 @@ for compartment_id in $compartments; do
             if [ $count_cpu -gt 0 ]; then
                 average_cpu=$(echo "scale=2; $total_cpu / $count_cpu" | bc)
             fi
-            echo "$compartment_name, $instance_id, $average_cpu, $average_memory"
+            echo "$compartment_name, $instance_id, $instance_info, $average_cpu, $average_memory"
             
         fi
         done

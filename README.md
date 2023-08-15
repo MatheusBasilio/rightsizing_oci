@@ -72,7 +72,7 @@ The script will gather CPU and Memory utilization metrics for each instance acro
 
 The output CSV file will have the following format:
 
-INSTANCE ID, CPU Utilization, Memory Utilization
+COMPARTMENT NAME, INSTANCE ID, INSTANCE NAME, OCPU, MEMORY, INSTANCE SHAPE, CPU Utilization, Memory Uitlization
 
 
 You can use this CSV file for further analysis and reporting.
